@@ -33,7 +33,7 @@ public class LibraryRegistrationService {
 			return lib.get();
 		}
 		else {
-			//Exception handling required
+			
 			return null;
 		}
 	}
@@ -44,7 +44,7 @@ public class LibraryRegistrationService {
 			return lib.get().getCollection();
 		}
 		else {
-			//Exception handling required
+			
 			return null;
 		}
 	}
