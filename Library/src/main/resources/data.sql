@@ -1,3 +1,6 @@
-insert into BOOK(ID,AUTHOR,NAME) values (100,'Yeshwanth Kanetkar','Let us C'); 
-INSERT INTO LIBRARY(ID,NAME) VALUES('101','MUMBAI');
+insert into BOOK(ID,AUTHOR,NAME) values (100,'Yashwanth Kanetkar','Let us C'); 
+insert into BOOK(ID,AUTHOR,NAME) values (101,'Herbert Schildt','Java - Complete Reference');
+INSERT INTO LIBRARY(ID,NAME) VALUES('101','Mumbai');
+INSERT INTO LIBRARY(ID,NAME) VALUES('102','Bangalore');
 INSERT INTO LIBRARY_COLLECTION(LIBRARY_ID,COLLECTION_ID) values (101,100);
+INSERT INTO LIBRARY_COLLECTION(LIBRARY_ID,COLLECTION_ID) values (102,101);

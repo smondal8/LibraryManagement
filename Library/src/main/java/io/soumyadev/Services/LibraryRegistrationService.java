@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
+import io.soumyadev.LibraryNotFound;
 import io.soumyadev.Model.Book;
 import io.soumyadev.Model.Library;
 import io.soumyadev.Repository.IBookRegistrationJPAInterface;
@@ -52,8 +53,13 @@ public class LibraryRegistrationService {
 	public List<Library> getAll() {
 		return libraryRepo.findAll();
 	}
-	
-	public Book createOrUpdateBook(Book book) {
+	/**
+	 * This method will create a book and put it in library code id or else update the existing book only
+	 * @param book
+	 * @param id
+	 * @return
+	 */
+	public Book createOrUpdateBook(Book book, int id) {
 		Optional<Book> returnedBook = bookRepo.findById(book.getId());
         
         if(returnedBook.isPresent()) 
@@ -64,7 +70,15 @@ public class LibraryRegistrationService {
         	existingEntity = bookRepo.save(existingEntity);             
             return existingEntity;
         } else {
-        	Book newEntity = bookRepo.save(book);             
+        	Book newEntity = bookRepo.save(book); 
+        	Optional<Library> lib = libraryRepo.findById(id);
+        	if(lib.isPresent()) {
+    			lib.get().getCollection().add(newEntity);
+    			libraryRepo.save(lib.get());
+    		}
+    		else {
+    			throw new LibraryNotFound("Books created but library is not found!");
+    		}
             return newEntity;
         }
 	}
