@@ -1,0 +1,12 @@
+<h2><u>Collection of Books in Library code - {{id}}</u></h2>
+<h3>{{erroMsg}}</h3>
+<table border="2" width="50%">
+    <tr><th width="25%">Book Id</th><th width="50%">Book Name</th><th width = "25%">Author</th></tr>
+<tr *ngFor="let book of bookList">   
+    
+        <td width="25%">{{book.id}}</td>
+        <td width="50%">{{book.name}}</td>
+        <td width="25%">{{book.author}}</td>    
+            
+</tr>
+</table>
