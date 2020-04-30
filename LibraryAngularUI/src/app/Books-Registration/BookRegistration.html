@@ -1,0 +1,18 @@
+<h2>
+Book Registration Details :
+</h2>
+<div>
+    <table border = "1" style="width: 50%;border:1;background-color: bisque;">
+        <th>Data</th><th>Insert value for below</th>
+        <tr><td>Book Name</td><td align="middle"><input type="text" [(ngModel)]="bookname"></td></tr>
+        <tr><td >Book Author</td><td align="middle"><input type="text" [(ngModel)]="bookauthor"></td></tr>  
+        <tr><td >Library Id</td><td align="middle">
+            <select [(ngModel)]="libid" >                
+                <option *ngFor="let library of LibraryLists" value="{{library.id}}">
+                    {{library.id}}
+                </option>            
+            </select>
+        </td></tr>      
+        <tr><td colspan="2" align="middle"><button (click)="onClick()">Register</button><button (click)="onClickCancel()">Cancel</button></td></tr>
+    </table>
+</div>
