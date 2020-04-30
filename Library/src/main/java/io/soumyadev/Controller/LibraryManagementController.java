@@ -55,9 +55,18 @@ public class LibraryManagementController {
 		URI location=ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(lib.getId()).toUri();
 		return ResponseEntity.created(location).build();  
 	}
+	@GetMapping("/books/listAll")
+	public List<Book> getBooksAll() {
+		return libraryRegistrationService.getAllBooks();
+	}
 	@PostMapping(path = "/updateBook/{libId}", consumes = "application/json")
 	public ResponseEntity<Book> createOrUpdateBook(@RequestBody Book book, @PathVariable("libId") int id ) {		
 		Book updated = libraryRegistrationService.createOrUpdateBook(book,id);		
+		return new ResponseEntity<Book>(updated, new HttpHeaders(), HttpStatus.OK);  
+	}
+	@PostMapping(path = "/updateBook", consumes = "application/json")
+	public ResponseEntity<Book> UpdateSingleBook(@RequestBody Book book) {		
+		Book updated = libraryRegistrationService.UpdateSingleBook(book);	
 		return new ResponseEntity<Book>(updated, new HttpHeaders(), HttpStatus.OK);  
 	}
 }

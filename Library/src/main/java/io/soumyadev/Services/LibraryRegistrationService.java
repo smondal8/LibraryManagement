@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
+import io.soumyadev.BookNotFound;
 import io.soumyadev.LibraryNotFound;
 import io.soumyadev.Model.Book;
 import io.soumyadev.Model.Library;
@@ -27,7 +28,11 @@ public class LibraryRegistrationService {
 	public Library registraion(Library library) {
 		return libraryRepo.save(library);
 	}
-	
+	/**
+	 * Find the wholistic library details
+	 * @param id
+	 * @return
+	 */
 	public Library findDetailsByLibraryId(int id) {
 		Optional<Library> lib = libraryRepo.findById(id);
 		if(lib.isPresent()) {
@@ -38,7 +43,11 @@ public class LibraryRegistrationService {
 			return null;
 		}
 	}
-	
+	/**
+	 * Finds all the books from library id 
+	 * @param id
+	 * @return
+	 */
 	public List<Book> findAllBooksByLibraryId(int id){
 		Optional<Library> lib = libraryRepo.findById(id);
 		if(lib.isPresent()) {
@@ -49,9 +58,37 @@ public class LibraryRegistrationService {
 			return null;
 		}
 	}
-
+	/**
+	 * Get all library details
+	 * @return
+	 */
 	public List<Library> getAll() {
 		return libraryRepo.findAll();
+	}
+	/**
+	 * get all book details
+	 * @return
+	 */
+	public List<Book> getAllBooks(){
+		return bookRepo.findAll();		
+	}
+	/**
+	 * updates a book considering it is already added to a library
+	 * @param book
+	 * @return
+	 */
+	public Book UpdateSingleBook(Book book) {
+		Optional<Book> returnedBook = bookRepo.findById(book.getId());        
+        if(returnedBook.isPresent()) 
+        {
+        	Book existingEntity = returnedBook.get();
+        	existingEntity.setName(book.getName());
+        	existingEntity.setAuthor(book.getAuthor());
+        	existingEntity = bookRepo.save(existingEntity);             
+            return existingEntity;
+        } else {
+        	throw new BookNotFound("The book is not found!");
+        }
 	}
 	/**
 	 * This method will create a book and put it in library code id or else update the existing book only
