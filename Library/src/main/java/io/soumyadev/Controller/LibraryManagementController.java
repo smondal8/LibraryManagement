@@ -21,7 +21,7 @@ import io.soumyadev.Model.Library;
 import io.soumyadev.Services.LibraryRegistrationService;
 
 @RestController
-@CrossOrigin()
+//@CrossOrigin()
 public class LibraryManagementController {
 	@Autowired
 	LibraryRegistrationService libraryRegistrationService;
