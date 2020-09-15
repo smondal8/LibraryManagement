@@ -1,0 +1,8 @@
+/Library/target/*.jar
+/Library/target
+/LibraryAngularUI/node_modules
+/Library/package-lock.json
+/Library/.settings
+/Library/.classpath
+/Library/.project
+/LibraryAngularUI/.vscode
