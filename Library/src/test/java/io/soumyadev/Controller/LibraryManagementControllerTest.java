@@ -44,6 +44,8 @@ public class LibraryManagementControllerTest {
 		Library lib2 = new Library();
 		lib1.setName("Mumbai");
 		lib2.setName("Bangalore");
+		lib1.setId(101);
+		lib2.setId(102);
 		List<Library> listBook = new ArrayList<>();
 		listBook.add(lib1);
 		listBook.add(lib2);
@@ -53,6 +55,26 @@ public class LibraryManagementControllerTest {
 		MvcResult result = mockMvc.perform(requestBuilder)
 		.andExpect(status().isOk())		
 		.andReturn();
-		JSONAssert.assertEquals("[{\"id\":0,\"name\":\"Mumbai\",\"collection\":null},{\"id\":0,\"name\":\"Bangalore\",\"collection\":null}]", result.getResponse().getContentAsString(), false);
+		JSONAssert.assertEquals("[{\"id\":101,\"name\":\"Mumbai\",\"collection\":null},{\"id\":102,\"name\":\"Bangalore\",\"collection\":null}]", result.getResponse().getContentAsString(), false);
+	}
+	
+	@Test
+	public void testgetLibraryDetails() throws Exception {
+		Library lib1 = new Library();
+		Library lib2 = new Library();
+		lib1.setName("Mumbai");
+		lib2.setName("Bangalore");
+		lib1.setId(101);
+		lib2.setId(102);
+		List<Library> listBook = new ArrayList<>();
+		listBook.add(lib1);
+		listBook.add(lib2);
+		when(libraryRegistrationService.findDetailsByLibraryId(101)).thenReturn(lib1);
+		RequestBuilder requestBuilder = MockMvcRequestBuilders.get("/library/{id}",101)
+				.accept(MediaType.APPLICATION_JSON);
+		MvcResult result = mockMvc.perform(requestBuilder)
+		.andExpect(status().isOk())
+		.andReturn();
+		JSONAssert.assertEquals("{\"id\":101,\"name\":\"Mumbai\",\"collection\":null}", result.getResponse().getContentAsString(), false);
 	}
 }
