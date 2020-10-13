@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,16 +16,27 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import io.soumyadev.LibraryNotFound;
 import io.soumyadev.Model.Book;
 import io.soumyadev.Model.Library;
 import io.soumyadev.Services.LibraryRegistrationService;
+import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @CrossOrigin()
+@Slf4j
 public class LibraryManagementController {
 	@Autowired
 	LibraryRegistrationService libraryRegistrationService;
+	
+	@Autowired
+	KafkaTemplate<String, String> kafkaTemplate;
+	
+	@Autowired
+	ObjectMapper objMapper;
 	
 	@GetMapping("/library/{id}")
 	public Library getLibraryDetails(@PathVariable("id") int id) {
@@ -60,8 +72,24 @@ public class LibraryManagementController {
 		return libraryRegistrationService.getAllBooks();
 	}
 	@PostMapping(path = "/updateBook/{libId}", consumes = "application/json")
-	public ResponseEntity<Book> createOrUpdateBook(@RequestBody Book book, @PathVariable("libId") int id ) {		
-		Book updated = libraryRegistrationService.createOrUpdateBook(book,id);		
+	public ResponseEntity<Book> createOrUpdateBook(@RequestBody Book book, @PathVariable("libId") int id ) {
+		log.info("Creating/Updating book {}",book.toString());
+		Book updated = null;
+		try {
+			updated = libraryRegistrationService.createOrUpdateBook(book,id);
+		} catch (Exception e) {
+			log.error("Exception occured :",e.getMessage());
+		}	
+		log.info("Successfully inserted/updated book information into Db.");
+		log.info("Publishing {} to kafka",book.toString());
+		try {
+			kafkaTemplate.send("TopicBook-dev-insertUpdate", objMapper.writeValueAsString(book));
+		} catch (JsonProcessingException e) {
+			log.error("Exception occured :",e.getMessage());
+		}
+		
+		
+		
 		return new ResponseEntity<Book>(updated, new HttpHeaders(), HttpStatus.OK);  
 	}
 	@PostMapping(path = "/updateBook", consumes = "application/json")
