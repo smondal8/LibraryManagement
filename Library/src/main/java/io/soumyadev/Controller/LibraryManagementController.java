@@ -88,12 +88,12 @@ public class LibraryManagementController {
 		try {
 			ListenableFuture<SendResult<String, String>> sendReturn = kafkaTemplate.send("TopicBook-dev-insertUpdate", objMapper.writeValueAsString(book));
 			sendReturn.addCallback(new ListenableFutureCallback<SendResult<String, String>>() {
-
 				@Override
 				public void onSuccess(SendResult<String, String> result) {
-					log.info("Successfully inserted/updated book information into Kafka.");
+					log.info("Successfully inserted/updated book information into Kafka, topic:{},"
+							+ "partition : {} ,offset : {}.",result.getRecordMetadata().topic(),
+							result.getRecordMetadata().partition(),result.getRecordMetadata().offset());
 				}
-
 				@Override
 				public void onFailure(Throwable ex) {
 					log.error("Error occured while publishing the message to Kafka");
