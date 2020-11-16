@@ -25,5 +25,4 @@ spring:
     admin:
       properties:
         bootstrap.servers: localhost:9092
-        
-        
+                
