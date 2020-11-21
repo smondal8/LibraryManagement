@@ -7,8 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.kafka.core.KafkaTemplate;
-import org.springframework.kafka.support.SendResult;
 import org.springframework.util.concurrent.ListenableFuture;
 import org.springframework.util.concurrent.ListenableFutureCallback;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -33,10 +31,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class LibraryManagementController {
 	@Autowired
-	LibraryRegistrationService libraryRegistrationService;
-	
-	@Autowired
-	KafkaTemplate<String, String> kafkaTemplate;
+	LibraryRegistrationService libraryRegistrationService;	
 	
 	@Autowired
 	ObjectMapper objMapper;
@@ -84,24 +79,6 @@ public class LibraryManagementController {
 			log.error("Exception occured :",e.getMessage());
 		}	
 		log.info("Successfully inserted/updated book information into Db.");
-		log.info("Publishing {} to kafka",book.toString());
-		try {
-			ListenableFuture<SendResult<String, String>> sendReturn = kafkaTemplate.send("TopicBook-dev-insertUpdate", objMapper.writeValueAsString(book));
-			sendReturn.addCallback(new ListenableFutureCallback<SendResult<String, String>>() {
-				@Override
-				public void onSuccess(SendResult<String, String> result) {
-					log.info("Successfully inserted/updated book information into Kafka, topic:{},"
-							+ "partition : {} ,offset : {}.",result.getRecordMetadata().topic(),
-							result.getRecordMetadata().partition(),result.getRecordMetadata().offset());
-				}
-				@Override
-				public void onFailure(Throwable ex) {
-					log.error("Error occured while publishing the message to Kafka");
-				}
-			});
-		} catch (JsonProcessingException e) {
-			log.error("Exception occured :",e.getMessage());
-		}
 		return new ResponseEntity<Book>(updated, new HttpHeaders(), HttpStatus.OK);  
 	}
 	@PostMapping(path = "/updateBook", consumes = "application/json")
