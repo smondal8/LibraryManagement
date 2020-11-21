@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+	<property resource="application.yml" />
+	<contextName>${spring.application.name}</contextName>
+	<appender name="JSON" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
+			<providers>
+				<timestamp>
+					<fieldName>ts</fieldName>
+					<timeZone>UTC</timeZone>
+				</timestamp>
+				<loggerName>
+					<fieldName>logger</fieldName>
+				</loggerName>
+				<logLevel>
+					<fieldName>level</fieldName>
+				</logLevel>
+				<callerData>
+					<classFieldName>class</classFieldName>
+					<methodFieldName>method</methodFieldName>
+					<lineFieldName>line</lineFieldName>
+					<fileFieldName>file</fileFieldName>
+				</callerData>
+				<threadName>
+					<fieldName>thread</fieldName>
+				</threadName>
+				<mdc />
+				<arguments>
+					<includeNonStructuredArguments>false</includeNonStructuredArguments>
+				</arguments>
+				<stackTrace>
+					<fieldName>stack</fieldName>
+				</stackTrace>
+   				<message>
+					<fieldName>msg</fieldName>
+				</message>
+			</providers>
+		</encoder>
+	</appender>
+	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+	    <encoder>
+	      <pattern>
+	        %d{dd-MM-yyyy HH:mm:ss.SSS} %magenta([%thread]) %highlight(%-5level) %logger{36}.%M - %msg%n
+	      </pattern>
+	    </encoder>
+  	</appender>
+<!--   	<root level="info">
+  		<appender-ref ref="JSON" />
+  	</root> -->
+  <root level="info">
+	  <if condition='isDefined("logback.appender")'>
+		  <then>
+			  <if condition='property("logback.appender").equalsIgnoreCase("JSON")'>
+			  	<then>
+			  		<appender-ref ref="JSON" />
+			  	</then>
+			  	<else>
+			  		<appender-ref ref="STDOUT" />  		
+			  	</else>
+			  </if>			  
+		  </then>
+		  <else>
+	  		<appender-ref ref="JSON" />
+	  	  </else>
+	  </if>	  
+  </root>
+</configuration>
