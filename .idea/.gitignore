@@ -6,3 +6,10 @@
 /dataSources.local.xml
 # Editor-based HTTP Client requests
 /httpRequests/
+/libraries/Maven__javax_activation_javax_activation_api_1_2_0.xml
+/libraries/Maven__javax_xml_bind_jaxb_api_2_3_1.xml
+/libraries/Maven__net_logstash_logback_logstash_logback_encoder_6_4.xml
+/libraries/Maven__org_codehaus_janino_commons_compiler_3_1_0.xml
+/libraries/Maven__org_codehaus_janino_janino_3_1_0.xml
+/libraries/Maven__org_springframework_boot_spring_boot_starter_security_2_2_5_RELEASE.xml
+/libraries/Maven__org_springframework_security_spring_security_config_5_2_2_RELEASE.xml
