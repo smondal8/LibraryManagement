@@ -16,6 +16,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -27,6 +28,7 @@ import io.soumyadev.config.JWTRequestFilter;
 import io.soumyadev.config.JWTUtil;
 import lombok.extern.slf4j.Slf4j;
 @Slf4j
+@CrossOrigin()
 @RestController
 public class LibraryManagementGlobalController {
 	@Autowired
