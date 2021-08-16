@@ -8,3 +8,4 @@
 /LibraryAngularUI/.vscode
 LibraryAngularUI/package-lock.json
 .gitignore
+coverage
