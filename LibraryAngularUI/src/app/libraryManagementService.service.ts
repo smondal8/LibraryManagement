@@ -5,24 +5,24 @@ import { IBook } from './IBook';
 import { HttpHeaders } from '@angular/common/http';
 import { ILibrary } from './ILibrary';
 import { catchError } from 'rxjs/operators';
+import { environment } from 'src/environments/environment';
  
 
 @Injectable({
   providedIn: 'root'
 })
-export class getLibrarydetailsService {
+export class getLibrarydetailsService {  
   public httpClient : HttpClient;
-  private url : string = "http://localhost:8282/library/listAll";  
-  
+  baseUrl = environment.baseUrl;
   constructor(httpClient : HttpClient) {
     this.httpClient = httpClient;
    }
 
 public getLibraryDetails() : Observable<ILibrary[]>{    
-    return this.httpClient.get<ILibrary[]>(this.url).pipe(      
+    return this.httpClient.get<ILibrary[]>(this.baseUrl+'/library/listAll').pipe(      
       catchError((error: HttpErrorResponse) =>{       
         return throwError(error.message || 'server error');    
-                                            })
+      })
     );
 }
 
@@ -32,7 +32,7 @@ errorHandler(error : HttpErrorResponse){
 }
 
 public getBookDetailsFromLibrary(libid : number) : Observable<IBook[]>{    
-    return this.httpClient.get<IBook[]>("http://localhost:8282/library/book/"+libid).pipe(      
+    return this.httpClient.get<IBook[]>(this.baseUrl+'/library/book/'+libid).pipe(      
       catchError((error: HttpErrorResponse) =>{       
          //return Observable.throw(error.message||"Server Error")
          return throwError(error.message || 'server error');    
@@ -45,7 +45,7 @@ public registerMovieDetails(body : IBook,id : number) : Observable<any>{
   let options = {
     headers: httpHeaders
   }; 
-  return this.httpClient.post<any>("http://localhost:8282/updateBook/"+id,body,options).pipe(      
+  return this.httpClient.post<any>(this.baseUrl+'/updateBook/'+id,body,options).pipe(      
     catchError((error: HttpErrorResponse) =>{       
       return throwError(error.message || 'server error');    
                                           })

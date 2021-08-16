@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-root',
@@ -12,7 +13,8 @@ export class AppComponent {
   constructor(router : Router){
     this.router = router;
   }
-  title = 'Library Management System';
+  title = 'Library Management System';  
+  version = environment.appVersion;
   onClick(){
     this.router.navigate(["/library"]);
   }

@@ -1,0 +1,40 @@
+{
+    "library_listAll":[
+        {
+            "id": 101,
+            "name": "Mumbai",
+            "collection": [
+                {
+                    "id": 100,
+                    "name": "Let us C",
+                    "author": "Yashwanth Kanetkar"
+                }
+            ]
+        },
+        {
+            "id": 102,
+            "name": "Bangalore",
+            "collection": [
+                {
+                    "id": 101,
+                    "name": "Java - Complete Reference",
+                    "author": "Herbert Schildt"
+                }
+            ]
+        }
+    ],
+    "library_book_101":[
+        {
+            "id": 100,
+            "name": "Let us C",
+            "author": "Yashwanth Kanetkar"
+        }
+    ],
+    "library_book_102":[
+        {
+            "id": 101,
+            "name": "Java - Complete Reference",
+            "author": "Herbert Schildt"
+        }
+    ]
+}  

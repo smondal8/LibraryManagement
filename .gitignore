@@ -6,3 +6,5 @@
 /Library/.classpath
 /Library/.project
 /LibraryAngularUI/.vscode
+LibraryAngularUI/package-lock.json
+.gitignore
