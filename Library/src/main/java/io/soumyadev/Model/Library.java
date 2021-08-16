@@ -10,31 +10,15 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import lombok.Data;
+
 @Entity
 @Table(name = "Library")
-public class Library {
+public @Data class Library {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	int id;	
 	String name;
 	@OneToMany(targetEntity = Book.class,cascade = CascadeType.ALL)
-	List<Book> collection;
-	public List<Book> getCollection() {
-		return collection;
-	}
-	public void setCollection(List<Book> collection) {
-		this.collection = collection;
-	}
-	public int getId() {
-		return id;
-	}
-	public void setId(int id) {
-		this.id = id;
-	}
-	public String getName() {
-		return name;
-	}
-	public void setName(String name) {
-		this.name = name;
-	}
+	List<Book> collection;	
 }
